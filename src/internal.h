@@ -30,6 +30,10 @@
 #ifndef internalDEFINED
 #define internalDEFINED
 
+#ifdef _WINDOWS
+#include "../moonglmath.h"
+#endif
+
 #ifdef LINUX
 #define _ISOC11_SOURCE /* see man aligned_alloc(3) */
 #endif
@@ -115,7 +119,7 @@ int isoption(lua_State *L, int arg, const char *const lst[]);
 #define checkboolean moonglmath_checkboolean
 int checkboolean(lua_State *L, int arg);
 #define noprintf moonglmath_noprintf
-int noprintf(const char *fmt, ...); 
+int noprintf(const char *fmt, ...);
 #define notavailable moonglmath_notavailable
 int notavailable(lua_State *L, ...);
 #define newmetatable moonglmath_newmetatable
@@ -123,7 +127,7 @@ int newmetatable(lua_State *L, const char *metatable);
 #define setmetatable moonglmath_setmetatable
 int setmetatable(lua_State *L, const char *metatable);
 #define metatable_setfuncs moonglmath_metatable_setfuncs
-int metatable_setfuncs(lua_State *L, const char *metatable, const luaL_Reg *metamethods, 
+int metatable_setfuncs(lua_State *L, const char *metatable, const luaL_Reg *metamethods,
             const luaL_Reg *methods);
 #define checklightuserdata moonglmath_checklightuserdata
 void *checklightuserdata(lua_State *L, int arg);
@@ -226,6 +230,7 @@ int quat_Mix(lua_State *L);
 int quat_Slerp(lua_State *L);
 
 /* complex.c ------------------------------------------------------------------------*/
+#ifdef KI_USE_COMPLEX
 #define complex_Norm moonglmath_complex_Norm
 int complex_Norm(lua_State *L);
 #define complex_Norm2 moonglmath_complex_Norm2
@@ -238,6 +243,7 @@ int complex_Inv(lua_State *L);
 int complex_Parts(lua_State *L);
 #define complex_Conj moonglmath_complex_Conj
 int complex_Conj(lua_State *L);
+#endif
 
 /* num.c -------------------------------------------------------------------------*/
 
@@ -266,7 +272,7 @@ int pushdata(lua_State *L, int type, void *src, size_t srcsize);
 
 
 /* main.c */
-int luaopen_moonglmath(lua_State *L);
+MOONGLMATH_API int luaopen_moonglmath(lua_State *L);
 void moonglmath_utils_init(lua_State *L);
 void moonglmath_open_datahandling(lua_State *L);
 void moonglmath_open_tracing(lua_State *L);
@@ -276,7 +282,9 @@ void moonglmath_open_vec(lua_State *L);
 void moonglmath_open_box(lua_State *L);
 void moonglmath_open_rect(lua_State *L);
 void moonglmath_open_quat(lua_State *L);
+#ifdef KI_USE_COMPLEX
 void moonglmath_open_complex(lua_State *L);
+#endif
 void moonglmath_open_transform(lua_State *L);
 void moonglmath_open_viewing(lua_State *L);
 void moonglmath_open_funcs(lua_State *L);
@@ -355,10 +363,10 @@ static int func(lua_State *L)               \
 } while(0)
 
 /*-----------------------------------------------------------------------*/
-#else 
+#else
 
-#define TSTART do {} while(0) 
-#define TSTOP do {} while(0)    
+#define TSTART do {} while(0)
+#define TSTOP do {} while(0)
 #define DBG noprintf
 #define TR()
 #define BK()

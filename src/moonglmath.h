@@ -38,6 +38,9 @@
 
 #define MOONGLMATH_VERSION      "0.6"
 
+#ifndef _WINDOWS
+#define KI_USE_COMPLEX 1
+#endif
 
 /*---------------------------------------------------------------------------*
  | Types, check/test/push                                                    |
@@ -48,7 +51,9 @@ typedef double moonglmath_box_t[8];
 typedef double moonglmath_rect_t[4];
 typedef double moonglmath_mat_t[4][4];
 typedef double moonglmath_quat_t[4];
+#ifdef KI_USE_COMPLEX
 typedef double complex moonglmath_complex_t;
+#endif
 
 /* Metatables names (keys in the Lua registry) */
 #define MOONGLMATH_VEC_MT "moonglmath_vec"
@@ -88,9 +93,11 @@ int moonglmath_testquat(lua_State *L, int arg, moonglmath_quat_t q);
 int moonglmath_checkquat(lua_State *L, int arg, moonglmath_quat_t q);
 int moonglmath_pushquat(lua_State *L, moonglmath_quat_t q);
 
+#ifdef KI_USE_COMPLEX
 int moonglmath_testcomplex(lua_State *L, int arg, moonglmath_complex_t *z);
 int moonglmath_checkcomplex(lua_State *L, int arg, moonglmath_complex_t *z);
 int moonglmath_pushcomplex(lua_State *L, moonglmath_complex_t z);
+#endif
 
 /*---------------------------------------------------------------------------*
  | Vector                                                                    |
@@ -168,7 +175,7 @@ void moonglmath_quat_sub(moonglmath_quat_t dst, moonglmath_quat_t q1, moonglmath
 double moonglmath_quat_norm(moonglmath_quat_t q);
 double moonglmath_quat_norm2(moonglmath_quat_t q);
 void moonglmath_quat_normalize(moonglmath_quat_t q);
-void moonglmath_quat_conj(moonglmath_quat_t dst, moonglmath_quat_t q); 
+void moonglmath_quat_conj(moonglmath_quat_t dst, moonglmath_quat_t q);
 void moonglmath_quat_inv(moonglmath_quat_t dst, moonglmath_quat_t q);
 void moonglmath_quat_div(moonglmath_quat_t dst, moonglmath_quat_t q, double s);
 void moonglmath_quat_mul(moonglmath_quat_t dst, moonglmath_quat_t q, moonglmath_quat_t p);

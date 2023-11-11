@@ -77,10 +77,12 @@
 #define checkquat moonglmath_checkquat
 #define pushquat moonglmath_pushquat
 
+#ifdef KI_USE_COMPLEX
 #define iscomplex moonglmath_iscomplex
 #define testcomplex moonglmath_testcomplex
 #define checkcomplex moonglmath_checkcomplex
 #define pushcomplex moonglmath_pushcomplex
+#endif
 
 #define vec_clear moonglmath_vec_clear
 #define vec_copy moonglmath_vec_copy
