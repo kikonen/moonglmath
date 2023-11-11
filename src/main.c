@@ -31,7 +31,7 @@ static void AtExit(void)
     {
     if(moonglmath_L)
         {
-        enums_free_all(moonglmath_L);
+        //enums_free_all(moonglmath_L);
         moonglmath_L = NULL;
         }
     }
