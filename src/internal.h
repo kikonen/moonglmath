@@ -32,6 +32,8 @@
 
 #ifdef _WINDOWS
 #include "../moonglmath.h"
+#else
+#define MOONGLMATH_API
 #endif
 
 #ifdef LINUX
