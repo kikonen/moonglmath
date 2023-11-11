@@ -6,3 +6,9 @@
 *.symbols
 core.*
 local/
+
+/x64
+vcpkg_installed
+.vs
+
+!/generated_lib/**/*

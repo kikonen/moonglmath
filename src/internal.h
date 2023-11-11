@@ -37,7 +37,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#ifndef _WINDOWS
 #include <sys/time.h>
+#endif
 #include "moonglmath_local.h"
 
 #define TOSTR_(x) #x
