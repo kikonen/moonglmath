@@ -168,7 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="moonglmath.h" />
+    <ClInclude Include="moonglmath_dll.h" />
     <ClInclude Include="src\compat-5.3.h" />
     <ClInclude Include="src\enums.h" />
     <ClInclude Include="src\internal.h" />
@@ -180,7 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="moonglmath.cpp" />
+    <ClCompile Include="moonglmath_dll.cpp" />
     <ClCompile Include="src\box.c" />
     <ClCompile Include="src\compat-5.3.c" />
     <ClCompile Include="src\complex.c" />

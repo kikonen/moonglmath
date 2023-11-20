@@ -11,6 +11,7 @@ ifeq ($(LUAVER),)
 # lua-interpreter not found
 LUAVER=5.3
 endif
+LUADIR=luajit
 LUAVER=5_1-2.1
 
 # Base install directory
@@ -22,9 +23,9 @@ PREFIX?=$(MINGW_PREFIX)
 endif
 
 # Directory where to install Lua modules
-L_DIR=$(PREFIX)/share/luajit/$(LUAVER)
+L_DIR=$(PREFIX)/share/$(LUADIR)/$(LUAVER)
 # Directory where to install Lua C modules
-C_DIR=$(PREFIX)/lib/luajit/$(LUAVER)
+C_DIR=$(PREFIX)/lib/$(LUADIR)/$(LUAVER)
 # Directory where to install C headers
 H_DIR=$(PREFIX)/include
 # Directory where to install C libraries
@@ -47,7 +48,7 @@ COPT 	+= -DLUAVER=$(LUAVER)
 ifdef LINUX
 COPT    += -fpic
 COPT	+= -DLINUX
-INCDIR = -I/usr/include -I/usr/include/luajit-$(LUAVER)
+INCDIR = -I/usr/include -I/usr/include/$(LUADIR)-$(LUAVER)
 LIBDIR = -L/usr/lib
 LIBS = -lm
 endif

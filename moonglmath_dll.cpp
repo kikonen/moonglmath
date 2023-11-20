@@ -2,7 +2,7 @@
 //
 
 #include "framework.h"
-#include "moonglmath.h"
+#include "moonglmath_dll.h"
 
 
 //// This is an example of an exported variable

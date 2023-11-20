@@ -31,7 +31,7 @@
 #define internalDEFINED
 
 #ifdef _WINDOWS
-#include "../moonglmath.h"
+#include "../moonglmath_dll.h"
 #else
 #define MOONGLMATH_API
 #endif

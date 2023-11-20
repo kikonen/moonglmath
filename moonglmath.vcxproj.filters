@@ -21,7 +21,7 @@
     <ClInclude Include="framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="moonglmath.h">
+    <ClInclude Include="moonglmath_dll.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\compat-5.3.h">
@@ -50,7 +50,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="moonglmath.cpp">
+    <ClCompile Include="moonglmath_dll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
