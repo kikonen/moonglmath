@@ -6,3 +6,10 @@
 *.symbols
 core.*
 local/
+
+/x64
+vcpkg_installed
+.vs
+.emacs*
+
+!/generated_lib/**/*

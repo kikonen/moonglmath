@@ -1,0 +1,2 @@
+#define MOONGLMATH_API __declspec(dllexport)
+#define MOONGLMATH_API __declspec(dllimport)

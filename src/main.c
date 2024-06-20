@@ -31,7 +31,7 @@ static void AtExit(void)
     {
     if(moonglmath_L)
         {
-        enums_free_all(moonglmath_L);
+        //enums_free_all(moonglmath_L);
         moonglmath_L = NULL;
         }
     }
@@ -45,7 +45,7 @@ static int AddVersions(lua_State *L)
     return 0;
     }
 
-int luaopen_moonglmath(lua_State *L)
+MOONGLMATH_API int luaopen_moonglmath(lua_State *L)
 /* Lua calls this function to load the module */
     {
     moonglmath_L = L;
@@ -64,7 +64,9 @@ int luaopen_moonglmath(lua_State *L)
     moonglmath_open_rect(L);
     moonglmath_open_mat(L);
     moonglmath_open_quat(L);
+#ifdef KI_USE_COMPLEX
     moonglmath_open_complex(L);
+#endif
     moonglmath_open_funcs(L);
     moonglmath_open_transform(L);
     moonglmath_open_viewing(L);
@@ -77,7 +79,9 @@ int luaopen_moonglmath(lua_State *L)
     if(luaL_dostring(L, "require('moonglmath.rectsugar')") != 0) lua_error(L);
     if(luaL_dostring(L, "require('moonglmath.matsugar')") != 0) lua_error(L);
     if(luaL_dostring(L, "require('moonglmath.quatsugar')") != 0) lua_error(L);
+#ifdef KI_USE_COMPLEX
     if(luaL_dostring(L, "require('moonglmath.complexsugar')") != 0) lua_error(L);
+#endif
     if(luaL_dostring(L, "require('moonglmath.utils')") != 0) lua_error(L);
     lua_pushnil(L);  lua_setglobal(L, "moonglmath");
 

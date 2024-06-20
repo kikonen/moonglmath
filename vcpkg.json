@@ -1,0 +1,12 @@
+{
+  "name": "moonode",
+  "version": "1.0.0",
+  "dependencies": [
+    {
+      "name": "luajit",
+      "platform": "windows & x64",
+      "version>=": "2023-01-04#4"
+    }
+  ],
+  "builtin-baseline": "d8079ecd674fe5632277d78d761333467955adb1"
+}

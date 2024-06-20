@@ -29,7 +29,7 @@
 #if defined(LINUX)
 #define AlignedAlloc aligned_alloc
 #define AlignedFree  free
-#elif defined(MINGW)
+#elif defined(MINGW) || defined(_WINDOWS)
 #define AlignedAlloc _aligned_malloc
 #define AlignedFree  _aligned_free
 #else
@@ -47,11 +47,11 @@ static int freehostmem(lua_State *L, ud_t *ud)
     return 0;
     }
 
-static ud_t *newhostmem(lua_State *L, hostmem_t* hostmem) 
+static ud_t *newhostmem(lua_State *L, hostmem_t* hostmem)
     {
     ud_t *ud;
     ud = newuserdata(L, hostmem, HOSTMEM_MT, "hostmem");
-    ud->destructor = freehostmem;  
+    ud->destructor = freehostmem;
     return ud;
     }
 
@@ -80,7 +80,7 @@ static int CreatePack(lua_State *L, int arg, size_t alignment)
     size_t n = toflattable(L, arg+1);
     size_t size = n * sizeoftype(type);
 
-    if(size == 0) 
+    if(size == 0)
         return luaL_argerror(L, arg+1, errstring(ERR_LENGTH));
 
     ptr = (char*)AlignedAlloc(alignment, size);
@@ -109,22 +109,22 @@ static int Create(lua_State *L, int arg, size_t alignment)
         {
         if(!lua_isnoneornil(L, arg+1))
             return CreatePack(L, arg, alignment);
-    
+
         data = luaL_checklstring(L, arg, &size);
-        if(size == 0) 
+        if(size == 0)
             return luaL_argerror(L, arg, errstring(ERR_LENGTH));
         }
     else
         {
         size = luaL_checkinteger(L, arg);
-        if(size == 0) 
+        if(size == 0)
             return luaL_argerror(L, arg, errstring(ERR_VALUE));
         }
 
     ptr = (char*)AlignedAlloc(alignment, size); // (char*)Malloc(L, size);
     if(!ptr)
         return luaL_error(L, "failed to allocate page aligned memory");
-            
+
     if(data)
         memcpy(ptr, data, size);
     else
@@ -228,7 +228,7 @@ static int CopyHostmem(lua_State *L)
     }
 
 
-static int WritePack(lua_State *L) 
+static int WritePack(lua_State *L)
     {
     hostmem_t* hostmem = checkhostmem(L, 1, NULL);
     size_t offset = luaL_checkinteger(L, 2);
@@ -245,7 +245,7 @@ static int Write(lua_State *L)
     int t = lua_type(L, 3);
     if(t == LUA_TSTRING) return WritePack(L);
     if(t == LUA_TNIL) return WriteData(L);
-    return luaL_argerror(L, 3, errstring(ERR_TYPE));    
+    return luaL_argerror(L, 3, errstring(ERR_TYPE));
     }
 
 static int Copy(lua_State *L)
@@ -253,11 +253,11 @@ static int Copy(lua_State *L)
     int t = lua_type(L, 4);
     if(t == LUA_TLIGHTUSERDATA) return CopyPtr(L);
     if(t == LUA_TUSERDATA) return CopyHostmem(L);
-    return luaL_argerror(L, 4, errstring(ERR_TYPE));    
+    return luaL_argerror(L, 4, errstring(ERR_TYPE));
     }
-        
+
 static int Clear(lua_State *L)
-/* clear(offset, size, c) 
+/* clear(offset, size, c)
  */
     {
     size_t len;
@@ -276,7 +276,7 @@ static int Clear(lua_State *L)
         }
     else
         c = luaL_optinteger(L, 4, 0);
-    
+
     if((offset >= hostmem->size) || (size > hostmem->size - offset))
         return luaL_error(L, errstring(ERR_BOUNDARIES));
     if(size == 0)
@@ -301,7 +301,7 @@ static int Read(lua_State *L)
         return pushdata(L, type, hostmem->ptr + offset, size);
         }
     if(size == 0)
-        lua_pushstring(L, ""); 
+        lua_pushstring(L, "");
     else
         lua_pushlstring(L, hostmem->ptr + offset, size);
     return 1;
@@ -350,7 +350,7 @@ RAW_FUNC(hostmem)
 TYPE_FUNC(hostmem)
 DELETE_FUNC(hostmem)
 
-static const struct luaL_Reg Methods[] = 
+static const struct luaL_Reg Methods[] =
     {
         { "raw", Raw },
         { "type", Type },
@@ -365,14 +365,14 @@ static const struct luaL_Reg Methods[] =
     };
 
 
-static const struct luaL_Reg MetaMethods[] = 
+static const struct luaL_Reg MetaMethods[] =
     {
         { "__gc",  Delete },
         { NULL, NULL } /* sentinel */
     };
 
 
-static const struct luaL_Reg Functions[] = 
+static const struct luaL_Reg Functions[] =
     {
         { "malloc", CreateMalloc },
         { "aligned_alloc", CreateAlignedAlloc },

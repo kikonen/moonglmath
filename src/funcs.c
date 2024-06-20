@@ -47,7 +47,9 @@ static int Inv(lua_State *L)
     {
     if(ismat(L,1)) return mat_Inv(L);
     if(isquat(L,1)) return quat_Inv(L);
+#ifdef KI_USE_COMPLEX
     if(iscomplex(L,1)) return complex_Inv(L);
+#endif
     return badarg(L, 1);
     }
 
@@ -56,7 +58,9 @@ static int Norm(lua_State *L)
     {
     if(isvec(L,1)) return vec_Norm(L);
     if(isquat(L,1)) return quat_Norm(L);
+#ifdef KI_USE_COMPLEX
     if(iscomplex(L,1)) return complex_Norm(L);
+#endif
     return badarg(L, 1);
     }
 
@@ -64,21 +68,27 @@ static int Norm2(lua_State *L)
     {
     if(isvec(L,1)) return vec_Norm2(L);
     if(isquat(L,1)) return quat_Norm2(L);
+#ifdef KI_USE_COMPLEX
     if(iscomplex(L,1)) return complex_Norm2(L);
+#endif
     return badarg(L, 1);
     }
 
 static int Conj(lua_State *L)
     {
     if(isquat(L,1)) return quat_Conj(L);
+#ifdef KI_USE_COMPLEX
     if(iscomplex(L,1)) return complex_Conj(L);
+#endif
     return badarg(L, 1);
     }
 
 static int Parts(lua_State *L)
     {
     if(isquat(L,1)) return quat_Parts(L);
+#ifdef KI_USE_COMPLEX
     if(iscomplex(L,1)) return complex_Parts(L);
+#endif
     return badarg(L, 1);
     }
 
@@ -86,7 +96,9 @@ static int Normalize(lua_State *L)
     {
     if(isvec(L,1)) return vec_Normalize(L);
     if(isquat(L,1)) return quat_Normalize(L);
+#ifdef KI_USE_COMPLEX
     if(iscomplex(L,1)) return complex_Normalize(L);
+#endif
     return badarg(L, 1);
     }
 
@@ -167,7 +179,7 @@ static int Fade(lua_State *L)
  | Registration                                                                 |
  *------------------------------------------------------------------------------*/
 
-static const struct luaL_Reg Functions[] = 
+static const struct luaL_Reg Functions[] =
     {
         { "adj", Adj },
         { "det", Det },

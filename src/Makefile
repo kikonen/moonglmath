@@ -11,6 +11,8 @@ ifeq ($(LUAVER),)
 # lua-interpreter not found
 LUAVER=5.3
 endif
+LUADIR=luajit
+LUAVER=5_1-2.1
 
 # Base install directory
 ifdef LINUX
@@ -21,9 +23,9 @@ PREFIX?=$(MINGW_PREFIX)
 endif
 
 # Directory where to install Lua modules
-L_DIR=$(PREFIX)/share/lua/$(LUAVER)
+L_DIR=$(PREFIX)/share/$(LUADIR)/$(LUAVER)
 # Directory where to install Lua C modules
-C_DIR=$(PREFIX)/lib/lua/$(LUAVER)
+C_DIR=$(PREFIX)/lib/$(LUADIR)/$(LUAVER)
 # Directory where to install C headers
 H_DIR=$(PREFIX)/include
 # Directory where to install C libraries
@@ -36,7 +38,7 @@ endif
 Tgt	:= moonglmath
 Src := $(wildcard *.c)
 Objs := $(Src:.c=.o)
- 
+
 COPT	+= -O2
 #COPT	+= -O0 -g
 COPT	+= -Wall -Wextra -Wpedantic
@@ -46,7 +48,7 @@ COPT 	+= -DLUAVER=$(LUAVER)
 ifdef LINUX
 COPT    += -fpic
 COPT	+= -DLINUX
-INCDIR = -I/usr/include -I/usr/include/lua$(LUAVER)
+INCDIR = -I/usr/include -I/usr/include/$(LUADIR)-$(LUAVER)
 LIBDIR = -L/usr/lib
 LIBS = -lm
 endif
@@ -103,7 +105,7 @@ uninstall:
 	@-rm -fr $(L_DIR)/$(Tgt)
 	@-rm -f $(C_DIR)/$(Tgt).dll
 
-build:	clean $(Tgt) 
+build:	clean $(Tgt)
 
 symbols: build
 	@objdump -T $(Tgt).so > $(Tgt).symbols
@@ -117,4 +119,3 @@ ifdef MINGW
 endif
 	@-rm -f $(Objs)
 	@echo
-

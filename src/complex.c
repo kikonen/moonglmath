@@ -25,6 +25,8 @@
 
 #include "internal.h"
 
+#ifdef KI_USE_COMPLEX
+
 /*------------------------------------------------------------------------------*
  | Check and push                                                               |
  *------------------------------------------------------------------------------*/
@@ -128,7 +130,7 @@ static int Complex(lua_State *L)
         checkcomplex(L, 1, &z);
     return pushcomplex(L, z);
     }
-    
+
 static int IsComplex(lua_State *L)
     {
     if(!testcomplex(L, 1, NULL))
@@ -137,7 +139,7 @@ static int IsComplex(lua_State *L)
         lua_pushboolean(L, 1);
     return 1;
     }
-    
+
 /*------------------------------------------------------------------------------*
  | ToString                                                                     |
  *------------------------------------------------------------------------------*/
@@ -180,7 +182,7 @@ static int Concat(lua_State *L)
         lua_pushvalue(L, 1);
         ToString_(L, z);
         }
-    else 
+    else
         return unexpected(L);
     lua_concat(L, 2);
     return 1;
@@ -238,7 +240,7 @@ FUNC(Csqrt, csqrt)
 
 static int Unm(lua_State *L)
     {
-    complex_t z; 
+    complex_t z;
     checkcomplex(L, 1, &z);
     return pushcomplex(L, -z);
     }
@@ -279,7 +281,7 @@ int complex_Norm(lua_State *L)
 int complex_Norm2(lua_State *L)
     {
     complex_t z;
-    double r; 
+    double r;
     checkcomplex(L, 1, &z);
     r = cabs(z);
     lua_pushnumber(L, r*r);
@@ -288,7 +290,7 @@ int complex_Norm2(lua_State *L)
 
 int complex_Normalize(lua_State *L)
     {
-    complex_t z; 
+    complex_t z;
     checkcomplex(L, 1, &z);
     return pushcomplex(L, z/cabs(z));
     }
@@ -302,7 +304,7 @@ int complex_Inv(lua_State *L)
 
 int complex_Parts(lua_State *L)
     {
-    complex_t z; 
+    complex_t z;
     checkcomplex(L, 1, &z);
     lua_pushnumber(L, creal(z));
     lua_pushnumber(L, cimag(z));
@@ -311,12 +313,12 @@ int complex_Parts(lua_State *L)
 
 int complex_Conj(lua_State *L)
     {
-    complex_t z; 
+    complex_t z;
     checkcomplex(L, 1, &z);
     return pushcomplex(L, conj(z));
     }
 
-static const struct luaL_Reg Metamethods[] = 
+static const struct luaL_Reg Metamethods[] =
     {
         { "__tostring", ToString },
         { "__concat", Concat },
@@ -329,7 +331,7 @@ static const struct luaL_Reg Metamethods[] =
         { NULL, NULL } /* sentinel */
     };
 
-static const struct luaL_Reg Methods[] = 
+static const struct luaL_Reg Methods[] =
     {
         { "parts", complex_Parts },
         { "conj", complex_Conj },
@@ -367,7 +369,7 @@ static const struct luaL_Reg Methods[] =
  | Registration                                                                 |
  *------------------------------------------------------------------------------*/
 
-static const struct luaL_Reg Functions[] = 
+static const struct luaL_Reg Functions[] =
     {
         { "complex", Complex },
         { "iscomplex", IsComplex },
@@ -403,3 +405,4 @@ void moonglmath_open_complex(lua_State *L)
     luaL_setfuncs(L, Functions, 0);
     }
 
+#endif
